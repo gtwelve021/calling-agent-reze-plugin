@@ -5,7 +5,7 @@
 
   const script = document.currentScript;
   const appUrl = new URL(script?.dataset.appUrl || 'https://calling-agent-reze.vercel.app/');
-  const mascotUrl = new URL('blue-companion.png', script?.src || window.location.href);
+  const mascotUrl = new URL('gold-companion.png', script?.src || window.location.href);
 
   if (appUrl.protocol !== 'https:' && appUrl.hostname !== 'localhost') return;
 
@@ -29,7 +29,7 @@
         .launcher:focus-visible{outline:3px solid #d1a24b;outline-offset:4px;border-radius:50%}
         .mascot-body{position:absolute;inset:0;transform-origin:50% 85%;animation:g12-breathe 4s ease-in-out infinite}
         .mascot-body{translate:var(--look-x,0px) var(--look-y,0px);transition:translate .24s ease-out}
-        .mode-caption{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;font:600 11px Arial,sans-serif;color:#406879;opacity:0;pointer-events:none}
+        .mode-caption{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;font:600 11px Arial,sans-serif;color:#AB8134;opacity:0;pointer-events:none}
         .launcher.hello .mode-caption,.launcher.ending .mode-caption{opacity:1}
         .launcher.hello .mascot-body{animation:g12-hello .65s ease-in-out 2}
         .end-call-hint:after{content:'';position:absolute;inset:auto 0 -12px;height:14px}
@@ -38,9 +38,9 @@
         .ring-marks,.talking-face{opacity:0}
         .expression{width:120%;height:120%;left:-10%;top:-10%}
         .blink{opacity:0;animation:g12-blink 6.4s infinite}
-        .timer{position:absolute;top:calc(100% + 1px);left:50%;transform:translateX(-50%);opacity:0;color:#496272;font:600 10px Arial,sans-serif;letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
-        .mascot-mouth{fill:#153747;transform-origin:52px 63px}
-        .voice-lines{fill:none;stroke:#5e8da2;stroke-width:2;stroke-linecap:round}
+        .timer{position:absolute;top:calc(100% + 1px);left:50%;transform:translateX(-50%);opacity:0;color:#AB8134;font:600 10px Arial,sans-serif;letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
+        .mascot-mouth{fill:#392d19;transform-origin:52px 63px}
+        .voice-lines{fill:none;stroke:#AB8134;stroke-width:2;stroke-linecap:round}
         .end-call-hint{position:absolute;bottom:calc(100% + 8px);left:50%;display:flex;align-items:center;gap:7px;white-space:nowrap;padding:9px 12px;border-radius:24px;background:#b93d47;color:#fff;font:600 11px Arial,sans-serif;opacity:0;transform:translate(-50%,6px) scale(.94);transition:opacity .18s,transform .18s;pointer-events:none}
         .end-call-hint svg{width:17px;height:17px;flex:none}
         .launcher.received:hover .end-call-hint,.launcher.received:focus-visible .end-call-hint{opacity:1;transform:translate(-50%,0) scale(1);pointer-events:auto}
@@ -63,8 +63,8 @@
       </style>
       <button class="launcher" type="button" aria-label="Start voice consultation" title="Start voice consultation">
         <span class="mascot-body" aria-hidden="true"><img class="launcher-mascot" src="${mascotUrl.href}" alt="">
-        <svg class="ring-marks" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#7197aa" stroke-width="2.6" stroke-linecap="round"><path d="M15 28Q5 39 15 50 M8 22Q-7 39 8 56 M85 28Q95 39 85 50 M92 22Q107 39 92 56"/></g></svg>
-        <svg class="expression" viewBox="0 0 1387 1134" aria-hidden="true"><g class="blink"><ellipse cx="642" cy="568" rx="43" ry="58" fill="#22a9e9"/><ellipse cx="802" cy="568" rx="43" ry="58" fill="#22a9e9"/><path d="M620 574Q642 584 664 574M780 574Q802 584 824 574" fill="none" stroke="#172326" stroke-width="8" stroke-linecap="round"/></g></svg></span>
+        <svg class="ring-marks" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#D6A456" stroke-width="2.6" stroke-linecap="round"><path d="M15 28Q5 39 15 50 M8 22Q-7 39 8 56 M85 28Q95 39 85 50 M92 22Q107 39 92 56"/></g></svg>
+        <svg class="expression" viewBox="0 0 1387 1134" aria-hidden="true"><defs><linearGradient id="g12-gold-eyelids" gradientUnits="userSpaceOnUse" x1="400" y1="350" x2="1100" y2="950"><stop stop-color="#D6A456"/><stop offset="1" stop-color="#AB8134"/></linearGradient></defs><g class="blink"><ellipse cx="642" cy="568" rx="43" ry="58" fill="url(#g12-gold-eyelids)"/><ellipse cx="802" cy="568" rx="43" ry="58" fill="url(#g12-gold-eyelids)"/><path d="M620 574Q642 584 664 574M780 574Q802 584 824 574" fill="none" stroke="#392d19" stroke-width="8" stroke-linecap="round"/></g></svg></span>
         <svg class="talking-face" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="mascot-mouth" cx="52" cy="63" rx="5" ry="3.5"/><g class="voice-lines"><path d="M73 49q7 5 0 10"/><path d="M79 45q12 9 0 18"/></g></svg>
         <span class="end-call-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 15v-4c4-5 14-5 18 0v4l-5-1v-3c-2-1-6-1-8 0v3Z" fill="currentColor"/></svg>End call</span>
         <span class="timer" aria-label="Call duration">00:00</span>
