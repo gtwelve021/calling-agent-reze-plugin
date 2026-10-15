@@ -4,6 +4,7 @@
   const script = document.currentScript;
   const appUrl = new URL(script?.dataset.appUrl || 'https://calling-agent-reze.vercel.app/');
   const avatarUrl = new URL('reze-avatar.png', script?.src || window.location.href);
+  const mascotUrl = new URL('blue-companion.png', script?.src || window.location.href);
   if (appUrl.protocol !== 'https:' && appUrl.hostname !== 'localhost') return;
 
   const mount = () => {
@@ -16,13 +17,9 @@
         :host{all:initial;position:fixed;right:22px;bottom:22px;z-index:2147483000;font-family:Arial,sans-serif;color:#171717;color-scheme:light}
         *,*::before,*::after{box-sizing:border-box} [hidden]{display:none!important}
         button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #d1a24b;outline-offset:4px}
-        @keyframes g12-ring{0%{transform:scale(.88);opacity:.5}70%,100%{transform:scale(1.42);opacity:0}}
-        .launcher-wrap{display:flex;flex-direction:column;align-items:center;width:150px}.launcher{position:relative;display:block;width:92px;height:92px;padding:0;border:0;background:transparent;color:#171717;transition:transform .2s ease;overflow:visible}.launcher-consent{margin:1px 0 0;width:150px;text-align:center;font-size:9px;line-height:1.25;color:#666}
-        .launcher::before,.launcher::after{content:"";position:absolute;left:24px;top:30px;width:52px;height:52px;border:1px solid #d1a24b99;border-radius:50%;animation:g12-ring 2.4s ease-out infinite;pointer-events:none}.launcher::after{animation-delay:1.2s}
-        .launcher:hover{transform:translateY(-2px) scale(1.03)}.launcher[aria-expanded="true"]::before,.launcher[aria-expanded="true"]::after{display:none}
-        .launcher-avatar{position:absolute;left:24px;top:30px;z-index:2;width:52px;height:52px;border:3px solid #fff;border-radius:50%;object-fit:cover;box-shadow:0 8px 24px #6b481f44}
-        .launcher-copy{position:absolute;inset:0;z-index:3;width:92px;height:92px;overflow:visible}.launcher-copy text{fill:#9b6b26;stroke:#fff;stroke-width:3px;paint-order:stroke fill;font-size:12px;font-weight:800;letter-spacing:.2px}
-        .wave{position:absolute;left:8px;top:49px;z-index:4;font-size:22px;line-height:1;filter:drop-shadow(0 2px 2px #fff);transform:rotate(-12deg)}
+        @keyframes g12-mascot-breathe{0%,100%{transform:translateY(0) rotate(-1deg) scale(1)}50%{transform:translateY(-4px) rotate(1deg) scale(1.015,.985)}}
+        .launcher-wrap{display:block;width:104px;height:96px}.launcher{position:relative;display:block;width:104px;height:96px;padding:0;border:0;background:transparent;transition:transform .2s ease;overflow:visible}.launcher:hover{transform:translateY(-3px) scale(1.04)}
+        .launcher-mascot{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 7px 10px #17242d24);animation:g12-mascot-breathe 4s ease-in-out infinite;transform-origin:50% 85%}
         .panel{position:absolute;right:0;bottom:98px;width:350px;max-width:calc(100vw - 28px);height:500px;max-height:calc(100dvh - 132px);display:flex;flex-direction:column;background:#fff;border:1px solid #ead8b3;border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #3d2a1533;transform-origin:bottom right;animation:g12-open .18s ease-out}
         @keyframes g12-open{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
         header{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 11px 14px;border-bottom:1px solid #eee;gap:10px}
@@ -32,19 +29,17 @@
         .content{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}iframe{display:block;width:100%;height:100%;flex:1;border:0;background:#fff}
         .status{position:absolute;inset:0;display:grid;place-items:center;margin:0;padding:20px;background:#fff;text-align:center;font-size:12px;color:#666;pointer-events:none}
         footer{padding:9px 12px;border-top:1px solid #eee;text-align:center;background:#fafafa;font-size:10px;line-height:1.4}footer a{color:#52525b;text-decoration:underline}footer p{margin:2px 0 0;color:#888}
-        @media(max-width:480px){:host{right:8px;bottom:max(8px,env(safe-area-inset-bottom))}.panel{width:min(350px,calc(100vw - 28px));height:min(500px,calc(100dvh - 120px));bottom:88px}.launcher{transform:scale(.9);transform-origin:bottom right}.launcher:hover{transform:translateY(-2px) scale(.93)}}
-        @media(prefers-reduced-motion:reduce){.launcher::before,.launcher::after,.panel{animation:none}.launcher{transition:none}}
+        @media(max-width:480px){:host{right:8px;bottom:max(8px,env(safe-area-inset-bottom))}.panel{width:min(350px,calc(100vw - 28px));height:min(500px,calc(100dvh - 120px));bottom:96px}.launcher-wrap,.launcher{width:92px;height:86px}.launcher:hover{transform:translateY(-2px) scale(1.03)}}
+        @media(prefers-reduced-motion:reduce){.panel,.launcher-mascot{animation:none}.launcher{transition:none}}
       </style>
       <section class="panel" id="g12-call-panel" role="dialog" aria-labelledby="g12-call-title" hidden>
         <header><div class="identity"><span class="avatar"><img src="${avatarUrl.href}" alt="Reze"></span><div><h2 id="g12-call-title">Reze · G12</h2><p>Voice consultation</p></div></div><button class="close" type="button" aria-label="Close and end call" title="Close and end call"><span aria-hidden="true">&times;</span></button></header>
         <div class="content"><p class="status" role="status">Loading your call...</p></div>
         <footer><a target="_blank" rel="noopener noreferrer">Open call in a new tab</a><p>Closing this panel ends your call.</p></footer>
       </section>
-      <div class="launcher-wrap"><button class="launcher" type="button" aria-label="Talk to Reze" title="Talk to Reze" aria-expanded="false" aria-controls="g12-call-panel" aria-haspopup="dialog">
-        <svg class="launcher-copy" viewBox="0 0 92 92" aria-hidden="true"><defs><path id="g12-reze-arc" d="M 9 54 A 38 38 0 0 1 83 54"/></defs><text><textPath href="#g12-reze-arc" startOffset="50%" text-anchor="middle">Talk to Reze</textPath></text></svg>
-        <img class="launcher-avatar" src="${avatarUrl.href}" alt="">
-        <span class="wave" aria-hidden="true">👋</span>
-      </button><p class="launcher-consent">By starting, you agree that G12 may save details you share and contact you about your enquiry.</p></div>`;
+      <div class="launcher-wrap"><button class="launcher" type="button" aria-label="Start voice consultation" title="Start voice consultation" aria-expanded="false" aria-controls="g12-call-panel" aria-haspopup="dialog">
+        <img class="launcher-mascot" src="${mascotUrl.href}" alt="">
+      </button></div>`;
     const panel = root.querySelector('.panel');
     const launcher = root.querySelector('.launcher');
     const closeButton = root.querySelector('.close');

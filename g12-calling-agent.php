@@ -2,7 +2,7 @@
 /**
  * Plugin Name: G12 Calling Agent
  * Description: Adds a floating Start Call button connected to the G12 Calling Agent.
- * Version: 1.3.1
+ * Version: 1.4.0
  * Author: G12
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -17,7 +17,7 @@ add_action( 'wp_enqueue_scripts', function () {
         'g12-calling-agent',
         plugin_dir_url( __FILE__ ) . 'assets/g12-calling-widget.js',
         array(),
-        '1.3.1',
+        '1.4.0',
         true
     );
 } );
